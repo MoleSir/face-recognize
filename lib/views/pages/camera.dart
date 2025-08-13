@@ -190,9 +190,6 @@ class CameraPageState extends State<CameraPage> {
     );
   }
 
-
-
-
   @override
   void dispose() {
     _faceDetector.close();
