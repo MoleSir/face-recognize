@@ -2,9 +2,23 @@
 
 A simple face recognize project.
 
+<div style="display: flex; gap: 10px;">
+  <img src="./assets/images/zjl1.jpg" alt="zjl1" style="width:300px;">
+  <img src="./assets/images/zjl2.jpg" alt="zjl2" style="width:300px;">
+  <img src="./assets/images/xzq.jpg" alt="xzq" style="width:300px;">
+</div>
+
+<div style="display: flex; gap: 10px;">
+<img src="./assets/images/mp.jpg" alt="mp" style="width:300px;">
+<img src="./assets/images/lj.jpg" alt="lj" style="width:300px;">
+<img src="./assets/images/list.jpg" alt="list" style="width:300px;">
+</div>
+
 
 
 ## 实现
+
+### 依赖选择
 
 - Camera 的使用直接找了 `camera` 插件官方仓库的 example
 - 人脸识别没有使用本地模型，使用 `google_mlkit_face_detection` 插件更方便
@@ -14,7 +28,17 @@ A simple face recognize project.
   -  `InputImage` 给 `google_mlkit_face_detection` 进行识别
   -  转为 List<double> 输入到人脸特征模型
 
+### 模块划分
 
+- `camera` 插件的使用在 lib/views/widgets/camera_view.dart，改造自 `camera` 插件的官方用例。`CameraView` 的构造函数需要输入一个 `Function(imglib.Image image, InputImage inputImage) ` 的函数对象，作为每次获取照片后的处理函数。
+
+- 而 lib/views/pages/camera.dart 的 `CameraPage` 类包含：
+
+    - `late FaceDetector _faceDetector`：来自 `google_mlkit_face_detection` 用于人脸的检测
+    - `late tfl.Interpreter _interpreter`：加载 mobilefacenet.tflite 并且进行推理
+    - 其中还包含了 `CameraView`，实现了拍照的界面，并且传入了 `CameraPage._processImage` 作为 `CameraView` 的参数，这样拍照后就会进入 `CameraPage._processImage` 对图片进行处理。
+
+    
 
 ## 图片处理流程
 
